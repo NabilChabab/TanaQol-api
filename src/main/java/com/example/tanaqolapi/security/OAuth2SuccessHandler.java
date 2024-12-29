@@ -1,5 +1,8 @@
 package com.example.tanaqolapi.security;
 
+import com.example.tanaqolapi.model.AppUser;
+import com.example.tanaqolapi.model.enums.Role;
+import com.example.tanaqolapi.repository.AppUserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,6 +15,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
@@ -20,6 +24,7 @@ import java.util.Map;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtService jwtService;
+    private final AppUserRepository appUserRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -32,10 +37,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String name = (String) attributes.get("name");
         String picture = (String) attributes.get("picture");
 
-        // Generate JWT token with user information
+        appUserRepository.findByEmail(email).orElseGet(() -> {
+            AppUser newUser = AppUser.builder()
+                .email(email)
+                .username(name)
+                .roles(Collections.singleton(Role.CUSTOMER))
+                .profile(picture)
+                .build();
+            return appUserRepository.save(newUser);
+        });
+
         String token = jwtService.generateTokenForOAuth2User(oauth2User);
 
-        // Redirect to frontend with token
         String redirectUrl = "http://localhost:4200/auth/oauth2/callback" +
             "?token=" + token;
 
