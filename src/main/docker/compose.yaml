@@ -1,0 +1,14 @@
+name: tanaqolapi
+services:
+  postgres:
+    container_name: tanaqolapi_db
+    image: 'postgres:17'
+    environment:
+      - 'POSTGRES_DB=tanaQol'
+      - 'POSTGRES_PASSWORD=tanaQol'
+      - 'POSTGRES_USER=tanaQol'
+    ports:
+      - '5433:5432'
+volumes:
+  postgres_data:
+    driver: local

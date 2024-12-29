@@ -1,0 +1,30 @@
+spring:
+  docker:
+    compose:
+      file: src/main/docker/compose.yaml
+      enabled: true
+      lifecycle-management: start_only
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+
+  liquibase:
+    change-log: db/changelog/master.yaml
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 281213990126-ffcgus2v3aoiiin8235g0h5ej06l1sa5.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8081/login/oauth2/code/google
+            scope:
+              - profile
+              - email
+            client-name: Google
+            provider: google
+server:
+  port: 8081
+
+
