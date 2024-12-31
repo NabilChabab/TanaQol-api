@@ -43,18 +43,13 @@ public class AppUser implements UserDetails {
 
     private String profile;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    private Set<Role> roles;
+    private Role role;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-            .flatMap(role -> role.getAuthorities().stream())
-            .toList();
+        return role.getAuthorities();
     }
 
     @Override
