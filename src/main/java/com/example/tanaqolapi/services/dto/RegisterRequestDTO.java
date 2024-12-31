@@ -43,5 +43,5 @@ public class RegisterRequestDTO {
     )
     private String password;
 
-    private Set<Role> roles;
+    private Role role;
 }

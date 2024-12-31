@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             AppUser newUser = AppUser.builder()
                 .email(email)
                 .username(name)
-                .roles(Collections.singleton(Role.CUSTOMER))
+                .role(Role.CUSTOMER)
                 .profile(picture)
                 .build();
             return appUserRepository.save(newUser);
