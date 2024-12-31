@@ -1,6 +1,7 @@
 package com.example.tanaqolapi.security;
 
 import com.example.tanaqolapi.model.AppUser;
+import com.example.tanaqolapi.model.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,8 +45,7 @@ public class JwtService {
         UUID userId = UUID.nameUUIDFromBytes(email.getBytes());
         claims.put("id", userId.toString());
 
-        List<String> roles = Collections.singletonList("ROLE_CUSTOMER");
-        claims.put("roles", roles);
+        claims.put("role", "ROLE_"+Role.CUSTOMER);
 
         return Jwts.builder()
             .setClaims(claims)
@@ -84,17 +84,18 @@ public class JwtService {
         UUID userId = ((AppUser) userDetails).getId();
 
         // Extract the list of roles from authorities
-        List<String> roles = userDetails.getAuthorities().stream()
-            .map(authority -> authority.getAuthority())
+        String role = userDetails.getAuthorities().stream()
+            .map(Object::toString)
             .filter(authority -> authority.startsWith("ROLE_"))
-            .toList();
+            .findFirst()
+            .orElse("");
 
         // Build the JWT
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(userDetails.getUsername())
             .claim("id", userId.toString())
-            .claim("roles", roles)
+            .claim("role", role)
             .claim("username", ((AppUser) userDetails).getFirstName() + " " + ((AppUser) userDetails).getLastName())
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))

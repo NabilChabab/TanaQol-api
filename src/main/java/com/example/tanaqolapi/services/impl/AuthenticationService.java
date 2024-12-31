@@ -33,12 +33,11 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponseDTO register(RegisterRequestDTO request) {
-        Set<Role> roles = request.getRoles();
         var user = AppUser.builder()
             .username(request.getUsername())
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
-            .roles(roles)
+            .role(request.getRole())
             .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
