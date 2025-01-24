@@ -59,8 +59,8 @@ public class ApplicationConfig {
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
         String hierarchy = """
-        ROLE_ADMIN > ROLE_JURY
-        ROLE_JURY > ROLE_MEMBER
+        ROLE_ADMIN > ROLE_DRIVER
+        ROLE_DRIVER > ROLE_CUSTOMER
         """;
         roleHierarchy.setHierarchy(hierarchy);
         return roleHierarchy;
