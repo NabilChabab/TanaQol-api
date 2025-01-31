@@ -36,8 +36,9 @@ public class AuthenticationService {
         var user = AppUser.builder()
             .username(request.getUsername())
             .email(request.getEmail())
+                .phone(request.getPhone())
             .password(passwordEncoder.encode(request.getPassword()))
-            .role(request.getRole())
+            .role(Role.CUSTOMER)
             .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);

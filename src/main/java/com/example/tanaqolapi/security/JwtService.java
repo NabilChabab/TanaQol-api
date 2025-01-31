@@ -29,7 +29,7 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateTokenForOAuth2User(OAuth2User oauth2User) {
+    public String generateTokenForOAuth2User(OAuth2User oauth2User , Role role) {
         Map<String, Object> claims = new HashMap<>();
 
         Map<String, Object> attributes = oauth2User.getAttributes();
@@ -45,7 +45,7 @@ public class JwtService {
         UUID userId = UUID.nameUUIDFromBytes(email.getBytes());
         claims.put("id", userId.toString());
 
-        claims.put("role", "ROLE_"+Role.CUSTOMER);
+        claims.put("role", "ROLE_"+role);
 
         return Jwts.builder()
             .setClaims(claims)
@@ -95,7 +95,7 @@ public class JwtService {
             .setClaims(claims)
             .setSubject(userDetails.getUsername())
             .claim("id", userId.toString())
-            .claim("role", role)
+            .claim("role", Role.CUSTOMER)
             .claim("username", ((AppUser) userDetails).getFirstName() + " " + ((AppUser) userDetails).getLastName())
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
