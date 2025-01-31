@@ -31,13 +31,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                                         Authentication authentication) throws IOException, ServletException {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
 
-        // Extract user details from OAuth2User
         Map<String, Object> attributes = oauth2User.getAttributes();
         String email = (String) attributes.get("email");
         String name = (String) attributes.get("name");
         String picture = (String) attributes.get("picture");
 
-        appUserRepository.findByEmail(email).orElseGet(() -> {
+        AppUser existingUser = appUserRepository.findByEmail(email).orElseGet(() -> {
             AppUser newUser = AppUser.builder()
                 .email(email)
                 .username(name)
@@ -47,7 +46,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             return appUserRepository.save(newUser);
         });
 
-        String token = jwtService.generateTokenForOAuth2User(oauth2User);
+        String token = jwtService.generateTokenForOAuth2User(oauth2User  , existingUser.getRole());
 
         String redirectUrl = "http://localhost:4200/auth/oauth2/callback" +
             "?token=" + token;
