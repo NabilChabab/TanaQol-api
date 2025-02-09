@@ -22,8 +22,6 @@ import java.util.UUID;
 @ToString
 
 @Table(name = "user")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -44,6 +42,12 @@ public class AppUser implements UserDetails {
     private String phone;
 
     private String profile;
+
+    private String license;
+    @Column(nullable = false, columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
+    private Double rating = 0.0;
+
+    private String address;
 
     @Enumerated(EnumType.STRING)
     private Role role;

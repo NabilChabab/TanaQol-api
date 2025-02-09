@@ -1,0 +1,109 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1738356065112-1
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_ride
+                  name: id
+                  type: UUID
+              - column:
+                  name: ride_type
+                  type: VARCHAR(255)
+              - column:
+                  name: pickup_location
+                  type: VARCHAR(255)
+              - column:
+                  name: destination
+                  type: VARCHAR(255)
+              - column:
+                  name: pickup_time
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: DOUBLE
+              - column:
+                  name: ride_status
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: customer_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: driver_id
+                  type: UUID
+            tableName: ride
+  - changeSet:
+      id: 1738356065112-2
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_vehicle
+                  name: id
+                  type: UUID
+              - column:
+                  name: brand
+                  type: VARCHAR(255)
+              - column:
+                  name: license_plate
+                  type: VARCHAR(255)
+              - column:
+                  name: vehicle_type
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: driver_id
+                  type: UUID
+            tableName: vehicle
+  - changeSet:
+      id: 1738356065112-3
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: customer_id
+            baseTableName: ride
+            constraintName: FK_RIDE_ON_CUSTOMER
+            referencedColumnNames: id
+            referencedTableName: user
+  - changeSet:
+      id: 1738356065112-4
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: driver_id
+            baseTableName: ride
+            constraintName: FK_RIDE_ON_DRIVER
+            referencedColumnNames: id
+            referencedTableName: user
+  - changeSet:
+      id: 1738356065112-5
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: driver_id
+            baseTableName: vehicle
+            constraintName: FK_VEHICLE_ON_DRIVER
+            referencedColumnNames: id
+            referencedTableName: user
+

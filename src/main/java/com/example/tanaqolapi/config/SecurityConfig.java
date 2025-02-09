@@ -45,7 +45,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .cors(Customizer.withDefaults())  // This will use your existing CorsConfig
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests(req ->
                 req.requestMatchers(WHITE_LIST_URL).permitAll()
                     .anyRequest()
