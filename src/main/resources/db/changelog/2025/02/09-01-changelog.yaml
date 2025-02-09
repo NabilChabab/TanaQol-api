@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1739101332295-1
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: user_type
+            tableName: user
+
