@@ -1,6 +1,9 @@
 package com.example.tanaqolapi.repository;
 
 import com.example.tanaqolapi.model.AppUser;
+import com.example.tanaqolapi.services.dto.AppUserResponseDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -15,5 +18,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, UUID> {
     Optional<AppUser> findByUsernameOrEmail(String username, String email);
     Optional<AppUser> findByUsername(String username);
     Optional<AppUser> findByEmail(String email);
+
 
 }
