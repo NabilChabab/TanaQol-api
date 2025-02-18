@@ -13,4 +13,7 @@ public class VehicleResponseDTO {
     private String brand;
     private String licensePlate;
     private VehicleType vehicleType;
+    private String driverName;
+    private String vehicleImage;
+
 }
