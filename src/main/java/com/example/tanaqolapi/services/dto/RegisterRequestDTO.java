@@ -23,10 +23,12 @@ import java.util.Set;
 public class RegisterRequestDTO {
 
 
-    @NotBlank(message = "Username is required")
-    @UniqueUsername(message = "Username is already taken")
-    private String username;
-//
+    @NotBlank(message = "firstName is required")
+    private String firstName;
+
+    @NotBlank(message = "lastName is required")
+    private String lastName;
+
     @NotBlank(message = "Phone number is required")
     private String phone;
 
