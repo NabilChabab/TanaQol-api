@@ -5,6 +5,7 @@ import com.example.tanaqolapi.model.enums.VehicleType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +22,12 @@ public class Vehicle {
 
     private String brand;
     private String licensePlate;
+    private String licenseNumber;
+    private LocalDate licenseExpiryDate;
+    private String insuranceProof;
+    private String licenseProof;
+    private String vehicleImage;
+
     @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
 
