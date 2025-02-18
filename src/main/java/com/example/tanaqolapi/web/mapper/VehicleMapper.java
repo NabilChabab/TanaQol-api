@@ -12,6 +12,9 @@ public interface VehicleMapper {
 
 
     Vehicle toEntity(VehicleRequestDTO vehicleRequestDTO);
+
+    @Mapping(expression = "java(vehicle.getDriver().getFirstName() + \" \" + vehicle.getDriver().getLastName())", target = "driverName")
+    @Mapping(source = "vehicleImage", target = "vehicleImage")
     VehicleResponseDTO toDTO(Vehicle vehicle);
 
 

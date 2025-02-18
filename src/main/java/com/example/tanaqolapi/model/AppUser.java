@@ -44,7 +44,7 @@ public class AppUser implements UserDetails {
     private String profile;
 
     private String license;
-    @Column(nullable = false, columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
+    @Column(columnDefinition = "DOUBLE PRECISION DEFAULT 0.0")
     private Double rating = 0.0;
 
     private String address;
