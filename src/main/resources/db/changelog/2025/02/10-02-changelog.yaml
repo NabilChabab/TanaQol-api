@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1739202376696-1
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: double PRECISION
+            columnName: rating
+            tableName: user
+

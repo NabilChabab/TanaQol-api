@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1739373271252-1
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: insurance_proof
+                  type: VARCHAR(255)
+              - column:
+                  name: license_expiry_date
+                  type: DATE
+              - column:
+                  name: license_plate_number
+                  type: VARCHAR(255)
+              - column:
+                  name: license_proof
+                  type: VARCHAR(255)
+            tableName: role_change_request
+  - changeSet:
+      id: 1739373271252-2
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: insurance_proof
+                  type: VARCHAR(255)
+              - column:
+                  name: license_expiry_date
+                  type: DATE
+              - column:
+                  name: license_number
+                  type: VARCHAR(255)
+              - column:
+                  name: license_proof
+                  type: VARCHAR(255)
+            tableName: vehicle
+
