@@ -49,8 +49,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Page<VehicleResponseDTO> findAll(Pageable pageable) {
-        return vehicleRepository.findAllByOrderByIdDesc(pageable);
+        return vehicleRepository.findAll(pageable).map(vehicleMapper::toDTO);
     }
+
 
     @Override
     public Optional<VehicleResponseDTO> findById(UUID vehicleId) {
