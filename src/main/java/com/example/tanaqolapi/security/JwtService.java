@@ -52,7 +52,7 @@ public class JwtService {
             .setSubject(email)
             .claim("username", name)
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
             .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();
     }
@@ -100,7 +100,7 @@ public class JwtService {
                 .claim("last_name", ((AppUser) userDetails).getLastName())
             .claim("username", ((AppUser) userDetails).getFirstName() + " " + ((AppUser) userDetails).getLastName())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
             .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();
     }
