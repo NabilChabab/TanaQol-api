@@ -1,0 +1,90 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1740429554854-1
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: destination_address
+                  type: VARCHAR(255)
+              - column:
+                  name: destination_lat
+                  type: DOUBLE
+              - column:
+                  name: destination_lng
+                  type: DOUBLE
+              - column:
+                  name: pickup_address
+                  type: VARCHAR(255)
+              - column:
+                  name: pickup_lat
+                  type: DOUBLE
+              - column:
+                  name: pickup_lng
+                  type: DOUBLE
+            tableName: ride
+  - changeSet:
+      id: 1740429554854-3
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: destination_lat
+            tableName: ride
+  - changeSet:
+      id: 1740429554854-5
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: destination_lng
+            tableName: ride
+  - changeSet:
+      id: 1740429554854-6
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: license_number
+                  type: VARCHAR(255)
+            tableName: role_change_request
+  - changeSet:
+      id: 1740429554854-9
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: pickup_lat
+            tableName: ride
+  - changeSet:
+      id: 1740429554854-11
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: pickup_lng
+            tableName: ride
+  - changeSet:
+      id: 1740429554854-12
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: destination
+            tableName: ride
+        - dropColumn:
+            columnName: pickup_location
+            tableName: ride
+  - changeSet:
+      id: 1740429554854-13
+      author: nabilchabab
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: license_plate_number
+            tableName: role_change_request
+
