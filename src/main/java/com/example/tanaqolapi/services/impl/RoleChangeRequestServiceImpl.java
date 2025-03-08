@@ -5,6 +5,7 @@ import com.example.tanaqolapi.model.RoleChangeRequest;
 import com.example.tanaqolapi.model.Vehicle;
 import com.example.tanaqolapi.model.enums.Role;
 import com.example.tanaqolapi.model.enums.RoleRequestStatus;
+import com.example.tanaqolapi.notifications.NotificationService;
 import com.example.tanaqolapi.repository.AppUserRepository;
 import com.example.tanaqolapi.repository.RoleChangeRequestRepository;
 import com.example.tanaqolapi.repository.VehicleRepository;
@@ -27,12 +28,14 @@ public class RoleChangeRequestServiceImpl implements RoleChangeRequestService {
     private final AppUserRepository appUserRepository;
     private final RoleRequestMapper roleRequestMapper;
     private final VehicleRepository vehicleRepository;
+    private final NotificationService notificationService;
 
-    public RoleChangeRequestServiceImpl(RoleChangeRequestRepository roleChangeRequestRepository, AppUserRepository appUserRepository, RoleRequestMapper roleRequestMapper, VehicleRepository vehicleRepository) {
+    public RoleChangeRequestServiceImpl(RoleChangeRequestRepository roleChangeRequestRepository, AppUserRepository appUserRepository, RoleRequestMapper roleRequestMapper, VehicleRepository vehicleRepository, NotificationService notificationService) {
         this.roleChangeRequestRepository = roleChangeRequestRepository;
         this.appUserRepository = appUserRepository;
         this.roleRequestMapper = roleRequestMapper;
         this.vehicleRepository = vehicleRepository;
+        this.notificationService = notificationService;
     }
 
 
@@ -54,6 +57,7 @@ public class RoleChangeRequestServiceImpl implements RoleChangeRequestService {
 
     @Override
     public void updateStatus(UUID requestId, RoleRequestStatus status) {
+
         RoleChangeRequest request = roleChangeRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Role change request not found"));
 
@@ -78,11 +82,15 @@ public class RoleChangeRequestServiceImpl implements RoleChangeRequestService {
             appUserRepository.save(user);
             roleChangeRequestRepository.save(request);
 
+            // Send notification
+            notificationService.sendNotification(user.getId(), "Your role change request has been approved.");
         } else {
             roleChangeRequestRepository.delete(request);
+
+            // Send notification
+            notificationService.sendNotification(request.getUser().getId(), "Your role change request has been rejected.");
         }
     }
-
 
     public Page<RoleRequestResponseDTO> findPendingRequests(Pageable pageable) {
         return roleChangeRequestRepository.findByStatus(RoleRequestStatus.PENDING , pageable).map(roleRequestMapper::toDto);

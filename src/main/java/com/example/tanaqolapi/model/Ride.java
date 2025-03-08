@@ -24,14 +24,19 @@ public class Ride {
     @Enumerated(EnumType.STRING)
     private RideType rideType;
 
-    private String pickupLocation;
-    private String destination;
+    private String pickupAddress;
+    private String destinationAddress;
+
+    private double pickupLat;
+    private double pickupLng;
+    private double destinationLat;
+    private double destinationLng;
+
     private LocalDateTime pickupTime;
     private double price;
 
     @Enumerated(EnumType.STRING)
     private RideStatus rideStatus;
-
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
@@ -40,5 +45,4 @@ public class Ride {
     @ManyToOne
     @JoinColumn(name = "driver_id", nullable = false)
     private AppUser driver;
-
 }
