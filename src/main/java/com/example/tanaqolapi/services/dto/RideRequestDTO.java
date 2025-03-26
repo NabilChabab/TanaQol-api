@@ -17,6 +17,7 @@ public class RideRequestDTO {
     private double pickupLng;
     private double destinationLat;
     private double destinationLng;
+    private double price;
     private RideType rideType;
     private UUID customerId;
     private UUID driverId;
