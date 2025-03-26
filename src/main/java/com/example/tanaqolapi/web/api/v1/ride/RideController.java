@@ -3,8 +3,10 @@ package com.example.tanaqolapi.web.api.v1.ride;
 import com.example.tanaqolapi.model.Ride;
 import com.example.tanaqolapi.model.enums.RideStatus;
 import com.example.tanaqolapi.repository.RideRepository;
-import com.example.tanaqolapi.services.RideService;
+import com.example.tanaqolapi.services.dto.RideRequestDTO;
+import com.example.tanaqolapi.services.impl.RideServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +22,14 @@ public class RideController {
     private RideRepository rideRepository;
 
     @Autowired
-    private RideService rideService;
+    private RideServiceImpl rideService;
 
     @PostMapping("/save")
-    public ResponseEntity<Ride> createRide(@RequestBody Ride ride) {
-        Ride savedRide = rideService.createRide(ride);
+    public ResponseEntity<Ride> createRide(@RequestBody RideRequestDTO rideRequest) {
+        Ride savedRide = rideService.createRide(rideRequest);
         return ResponseEntity.ok(savedRide);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Ride> getRide(@PathVariable UUID id) {
@@ -69,5 +72,25 @@ public class RideController {
             return ResponseEntity.ok(updatedRide);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{rideId}/accept")
+    public ResponseEntity<Ride> acceptRide(@PathVariable UUID rideId) {
+        Ride ride = rideService.acceptRide(rideId);
+        if (ride != null) {
+            return ResponseEntity.ok(ride);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/{rideId}/refuse")
+    public ResponseEntity<Ride> refuseRide(@PathVariable UUID rideId) {
+        Ride ride = rideService.refuseRide(rideId);
+        if (ride != null) {
+            return ResponseEntity.ok(ride);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
