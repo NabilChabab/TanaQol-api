@@ -11,5 +11,5 @@ import java.util.UUID;
 
 public interface RoleChangeRequestRepository extends JpaRepository<RoleChangeRequest, UUID> {
 
-    Page<RoleChangeRequest> findByStatus(RoleRequestStatus status , Pageable pageable);
+    Page<RoleChangeRequest> findAll(Pageable pageable);
 }
