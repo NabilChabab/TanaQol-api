@@ -33,7 +33,7 @@ public class RoleChangeRequestController {
 
     @GetMapping("/all-pending")
     public ResponseEntity<Page<RoleRequestResponseDTO>> getPendingRequests(Pageable pageable) {
-        return ResponseEntity.ok(roleChangeRequestService.findPendingRequests(pageable));
+        return ResponseEntity.ok(roleChangeRequestService.findAllRequests(pageable));
     }
 
     @PutMapping("/{requestId}/status")
