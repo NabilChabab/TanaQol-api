@@ -30,11 +30,15 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URL = {
-        "/api/v1/auth/**",
-        "/oauth2/**",
-        "/login/**",
-        "/login/oauth2/code/google",
-        "/error"
+            "/api/v1/auth/**",
+            "/oauth2/**",
+            "/login/**",
+            "/login/oauth2/code/google",
+            "/error",
+            "/ws/**",  // Allow WebSocket connections
+            "/topic/**", // Allow topics
+            "/queue/**", // Allow queues
+            "/app/**" // Allow WebSocket connections
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -44,22 +48,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .cors(Customizer.withDefaults())
-            .authorizeHttpRequests(req ->
-                req.requestMatchers(WHITE_LIST_URL).permitAll()
-                    .anyRequest()
-                    .authenticated()
-            )
-            .oauth2Login(oauth2 -> oauth2
-                .userInfoEndpoint(userInfo -> userInfo
-                    .oidcUserService(new OidcUserService())
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults()) // Enable CORS with the configured CorsConfigurationSource
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers(WHITE_LIST_URL).permitAll()
+                                .anyRequest()
+                                .authenticated()
                 )
-                .successHandler(oAuth2SuccessHandler)
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .oidcUserService(new OidcUserService())
+                        )
+                        .successHandler(oAuth2SuccessHandler)
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -67,7 +71,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // Explicitly list allowed origins
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList(
                 "Authorization",
@@ -78,7 +82,7 @@ public class SecurityConfig {
         ));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setMaxAge(3600L); // 1h
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true); // Allow credentials
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
