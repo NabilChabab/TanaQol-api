@@ -83,16 +83,16 @@ public class RoleChangeRequestServiceImpl implements RoleChangeRequestService {
             roleChangeRequestRepository.save(request);
 
             // Send notification
-            notificationService.sendNotification(user.getId(), "Your role change request has been approved.");
+//            notificationService.sendNotification(user.getId(), "Your role change request has been approved.");
         } else {
             roleChangeRequestRepository.delete(request);
 
             // Send notification
-            notificationService.sendNotification(request.getUser().getId(), "Your role change request has been rejected.");
+//            notificationService.sendNotification(request.getUser().getId(), "Your role change request has been rejected.");
         }
     }
 
-    public Page<RoleRequestResponseDTO> findPendingRequests(Pageable pageable) {
-        return roleChangeRequestRepository.findByStatus(RoleRequestStatus.PENDING , pageable).map(roleRequestMapper::toDto);
+    public Page<RoleRequestResponseDTO> findAllRequests(Pageable pageable) {
+        return roleChangeRequestRepository.findAll(pageable).map(roleRequestMapper::toDto);
     }
 }

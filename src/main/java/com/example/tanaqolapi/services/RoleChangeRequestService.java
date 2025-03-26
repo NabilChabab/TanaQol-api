@@ -14,5 +14,5 @@ public interface RoleChangeRequestService {
 
     void updateStatus(UUID requestId , RoleRequestStatus status);
 
-    Page<RoleRequestResponseDTO> findPendingRequests(Pageable pageable);
+    Page<RoleRequestResponseDTO> findAllRequests(Pageable pageable);
 }

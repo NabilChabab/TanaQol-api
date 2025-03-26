@@ -7,4 +7,5 @@ public enum RideStatus {
     PICKED_UP,
     ON_THE_WAY,
     COMPLETED,
+    REJECTED,
 }
